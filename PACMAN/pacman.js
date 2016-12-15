@@ -1,16 +1,23 @@
-var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {preload: preload, create: create});
+var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create});
 
 var map;
 var layer;
 var pacman = null;
 
+function init() {
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically = true;
+
+    Phaser.Canvas.setImageRenderingCrisp(game.canvas);
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+}
 
 function preload() {
     game.load.tilemap('Map', 'Map.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tiles', 'images/camp.png');
     game.load.spritesheet('pacman', 'images/pacman.png', 32, 32 );
 }
-
 
 function create() {
     game.stage.backgroundColor = '#000000';
