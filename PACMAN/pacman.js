@@ -1,8 +1,11 @@
-var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create});
+var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create, update:update});
 
 var map;
 var layer;
+
 var pacman = null;
+
+var current = Phaser.NONE;
 
 function init() {
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -35,9 +38,29 @@ function create() {
     game.physics.arcade.enable(pacman);
     pacman.body.setSize(16, 16, 0, 0);
 
+    cursors = this.input.keyboard.createCursorKeys();
+
     //animación
     pacman.play('munch');
+}
 
+
+function update() {
+
+    if (cursors.left.isDown && current !== Phaser.LEFT) {
+
+        pacman.angle = 180;
+        pacman.body.velocity.x = -150;
+        pacman.animations.play('left');
+
+    }
+    else if (cursors.right.isDown && current !== Phaser.RIGHT) {
+
+        pacman.angle = 360;
+        pacman.body.velocity.x = 150;
+        pacman.animations.play('right');
+
+    }
 }
 
 
