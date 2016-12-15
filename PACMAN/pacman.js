@@ -61,6 +61,18 @@ function update() {
         pacman.animations.play('right');
 
     }
+    else if(cursors.up.isDown && current!== Phaser.UP) {
+
+        pacman.angle = 270;
+        pacman.body.velocity.y = -150;
+        pacman.animations.play('up');
+    }
+    else if (cursors.down.isDown && current!== Phaser.DOWN) {
+
+        pacman.angle = 90;
+        pacman.body.velocity.y = 150;
+        pacman.animations.play('down');
+    }
 }
 
 

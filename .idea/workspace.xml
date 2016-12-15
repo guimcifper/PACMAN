@@ -26,8 +26,8 @@
       <file leaf-file-name="pacman.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PACMAN/pacman.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="611">
+              <caret line="74" column="5" lean-forward="true" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -52,7 +52,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="2" />
+    <option name="x" value="5" />
     <option name="y" value="23" />
     <option name="width" value="1300" />
     <option name="height" value="896" />
@@ -195,15 +195,15 @@
       <option name="presentableId" value="Default" />
       <updated>1481805130306</updated>
       <workItem from="1481805133205" duration="158000" />
-      <workItem from="1481806912063" duration="512000" />
+      <workItem from="1481806912063" duration="961000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="670000" />
+    <option name="totallyTimeSpent" value="1119000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2" y="23" width="1300" height="896" extended-state="0" />
+    <frame x="5" y="23" width="1300" height="896" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22908522" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -245,8 +245,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PACMAN/pacman.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state relative-caret-position="611">
+          <caret line="74" column="5" lean-forward="true" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
           <folding />
         </state>
       </provider>
