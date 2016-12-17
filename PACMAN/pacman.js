@@ -1,4 +1,4 @@
-var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create, update:update, mov :mov, eatDot: eatDot});
+var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create, update:update, mov :mov, eatDot: eatDot, eatPill: eatPill});
 
 var map;
 var layer;
@@ -22,6 +22,7 @@ function preload() {
     game.load.image('tiles', 'images/camp.png');
     game.load.spritesheet('pacman', 'images/pacman.png', 32, 32 );
     game.load.image('dot', 'images/dot.png');
+    game.load.image('pill', 'images/pill.png');
 }
 
 function create() {
@@ -33,11 +34,16 @@ function create() {
     layer = map.createLayer('mapa1');
 
     dots = game.add.physicsGroup();
+    pills = game.add.physicsGroup();
+
     map.createFromTiles(7, safetile, 'dot', layer, dots);
+    map.createFromTiles(40, safetile, 'pill', layer, pills);
+
 
     //  The dots will need to be offset by 6px to put them back in the middle of the grid
     dots.setAll('x', 6, false, false, 1);
     dots.setAll('y', 6, false, false, 1);
+
 
     // Posición del pacman, grid location 14x17
     pacman = game.add.sprite((14 * 16) + 8, (17 * 16) + 8, 'pacman', 0);
@@ -64,6 +70,7 @@ function update() {
     mov();
 
     game.physics.arcade.overlap(pacman, dots, eatDot, null, this);
+    game.physics.arcade.overlap(pacman, pills, eatPill, null, this);
 
 }
 
@@ -98,7 +105,11 @@ function mov(){
 
 }
 
-
 function eatDot (pacman, dot) {
     dot.kill();
 }
+
+function eatPill (pacman, pill) {
+    pill.kill();
+}
+
