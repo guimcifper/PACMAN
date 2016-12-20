@@ -6,6 +6,8 @@ var layer;
 var pacman = null;
 var safetile = 14;
 var current = Phaser.NONE;
+var music_eatdot;
+var music_intro;
 
 
 function init() {
@@ -23,6 +25,12 @@ function preload() {
     game.load.spritesheet('pacman', 'images/pacman.png', 32, 32 );
     game.load.image('dot', 'images/dot.png');
     game.load.image('pill', 'images/pill.png');
+
+    game.load.spritesheet('ghosts', 'images/ghosts.png',32, 32);
+
+    game.load.audio('intro', 'sounds/pacman_beginning.wav');
+    game.load.audio('pacman-chomp', 'sounds/pacman_chomp.wav');
+
 }
 
 function create() {
@@ -32,6 +40,7 @@ function create() {
     map = game.add.tilemap('Map');
     map.addTilesetImage('pacman-mapa1', 'tiles');
     layer = map.createLayer('mapa1');
+
 
     dots = game.add.physicsGroup();
     pills = game.add.physicsGroup();
@@ -44,6 +53,26 @@ function create() {
     dots.setAll('x', 6, false, false, 1);
     dots.setAll('y', 6, false, false, 1);
 
+
+    //posición de los fantasmas
+    pacman = game.add.sprite((12 * 7) + 8, (12 * 7) + 8, 'ghosts', 0);
+    pacman.anchor.set(0.5);
+
+    pacman = game.add.sprite((12 * 15) + 8, (12 * 15) + 8, 'ghosts', 5);
+    pacman.anchor.set(0.5);
+
+    pacman = game.add.sprite((12 * 19) + 8, (12 * 19) + 8, 'ghosts', 9);
+    pacman.anchor.set(0.5);
+
+    pacman = game.add.sprite((12 * 35) + 8, (12 * 35) + 8, 'ghosts', 13);
+    pacman.anchor.set(0.5);
+
+    //sonido al pasar por los puntos.
+    music_eatdot = game.add.audio('pacman-chomp');
+
+    //reproducimos el sonido de la intro.
+    music_intro = game.add.audio('intro');
+    music_intro.play();
 
     // Posición del pacman, grid location 14x17
     pacman = game.add.sprite((14 * 16) + 8, (17 * 16) + 8, 'pacman', 0);
@@ -95,21 +124,24 @@ function mov(){
         pacman.angle = 270;
         pacman.body.velocity.y = -150;
         pacman.animations.play('up');
+
     }
     else if (cursors.down.isDown && current!== Phaser.DOWN) {
 
         pacman.angle = 90;
         pacman.body.velocity.y = 150;
         pacman.animations.play('down');
-    }
 
+    }
 }
 
 function eatDot (pacman, dot) {
     dot.kill();
+    music_eatdot.play();
 }
 
 function eatPill (pacman, pill) {
     pill.kill();
+    music_eatdot.play();
 }
 
