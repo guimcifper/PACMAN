@@ -78,10 +78,14 @@ function create() {
 
     //sonido al pasar por los puntos.
     music_eatdot = game.add.audio('pacman-chomp');
+    music_eatdot.volume = 0.2;
+
     music_eatdot1 = game.add.audio('pacman-chomp1');
+    music_eatdot1.volume = 0.4;
 
     //reproducimos el sonido de la intro.
     music_intro = game.add.audio('intro');
+    music_intro.volume = 0.2;
     music_intro.play();
 
     music_death = game.add.audio('death');
