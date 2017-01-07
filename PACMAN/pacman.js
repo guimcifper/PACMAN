@@ -56,7 +56,6 @@ function create() {
     map.createFromTiles(7, safetile, 'dot', layer, dots);
     map.createFromTiles(40, safetile, 'pill', layer, pills);
 
-
     //  The dots will need to be offset by 6px to put them back in the middle of the grid
     dots.setAll('x', 6, false, false, 1);
     dots.setAll('y', 6, false, false, 1);
@@ -64,17 +63,17 @@ function create() {
     scoreText = game.add.text(375, 260, "Score: " + score, { fontSize: "9px", fill: "#fff" });
 
     //posición de los fantasmas
-    pacman = game.add.sprite((12 * 7) + 8, (12 * 7) + 8, 'ghosts', 0);
-    pacman.anchor.set(0.5);
+    Inky = game.add.sprite((12 * 7) + 8, (12 * 7) + 8, 'ghosts', 0);
+    Inky.anchor.set(0.5);
 
-    pacman = game.add.sprite((12 * 15) + 8, (12 * 15) + 8, 'ghosts', 5);
-    pacman.anchor.set(0.5);
+    Clyde= game.add.sprite((12 * 15) + 8, (12 * 15) + 8, 'ghosts', 5);
+    Clyde.anchor.set(0.5);
 
-    pacman = game.add.sprite((12 * 19) + 8, (12 * 19) + 8, 'ghosts', 9);
-    pacman.anchor.set(0.5);
+    Pinky = game.add.sprite((12 * 19) + 8, (12 * 19) + 8, 'ghosts', 9);
+    Pinky.anchor.set(0.5);
 
-    pacman = game.add.sprite((12 * 35) + 8, (12 * 35) + 8, 'ghosts', 13);
-    pacman.anchor.set(0.5);
+    Blinky = game.add.sprite((12 * 35) + 8, (12 * 35) + 8, 'ghosts', 13);
+    Blinky.anchor.set(0.5);
 
     //sonido al pasar por los puntos.
     music_eatdot = game.add.audio('pacman-chomp');
@@ -99,6 +98,7 @@ function create() {
 
     //Nombre animacion, Frames, Velocidad por frame y si es ciclico.
     pacman.animations.add('munch', [0, 1, 2, 1], 20, true);
+    pacman.animations.add("death", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 10, false);
 
     game.physics.arcade.enable(pacman);
     pacman.body.setSize(16, 16, 0, 0);
@@ -120,6 +120,7 @@ function update() {
     scoreText.text = 'Score: ' + score;
 
     tunnel();
+
 }
 
 function mov(){
@@ -127,28 +128,28 @@ function mov(){
     if(cursors.left.isDown && current!== Phaser.LEFT){
 
         pacman.angle = 180;
-        pacman.body.velocity.x = -100;
+        pacman.body.velocity.x = -200;
         pacman.animations.play('left');
 
     }
     else if(cursors.right.isDown && current!== Phaser.RIGHT){
 
         pacman.angle = 360;
-        pacman.body.velocity.x = 100;
+        pacman.body.velocity.x = 200;
         pacman.animations.play('right');
 
     }
     else if(cursors.up.isDown && current!== Phaser.UP) {
 
         pacman.angle = 270;
-        pacman.body.velocity.y = -100;
+        pacman.body.velocity.y = -200;
         pacman.animations.play('up');
 
     }
     else if (cursors.down.isDown && current!== Phaser.DOWN) {
 
         pacman.angle = 90;
-        pacman.body.velocity.y = 100;
+        pacman.body.velocity.y = 200;
         pacman.animations.play('down');
 
     }
@@ -156,29 +157,33 @@ function mov(){
 }
 
 function eatDot (pacman, dot) {
+
     dot.kill();
     music_eatdot.play();
     score +=10;
 
+    if (dots.total === 0)
+    {
+        dots.callAll('revive');
+    }
+
 }
 
 function eatPill (pacman, pill) {
+
     pill.kill();
     music_eatdot1.play();
-    score +=100;
-
+    score +=50;
 }
 
 function tunnel() {
 
     if(pacman.body.x > 450){
         pacman.body.x = 0;
-        music_death.play();
     }
 
     else if(pacman.body.x < 0){
         pacman.body.x = 450;
-        music_death.play();
     }
 }
 
