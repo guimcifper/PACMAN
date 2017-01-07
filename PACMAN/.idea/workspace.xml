@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0f195de-139d-4c38-9476-a7ce504d8981" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pacman.js" afterPath="$PROJECT_DIR$/pacman.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -37,18 +36,8 @@
       <file leaf-file-name="pacman.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pacman.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-975">
-              <caret line="78" column="36" lean-forward="true" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="7" lean-forward="false" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+            <state relative-caret-position="-484">
+              <caret line="140" column="38" lean-forward="true" selection-start-line="140" selection-start-column="38" selection-end-line="140" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -75,6 +64,7 @@
         <option value="$PROJECT_DIR$/tsconfig.json" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/Map.json" />
+        <option value="$PROJECT_DIR$/Ghost.js" />
         <option value="$PROJECT_DIR$/pacman.js" />
       </list>
     </option>
@@ -280,7 +270,7 @@
       <workItem from="1483292887218" duration="13000" />
       <workItem from="1483292920552" duration="33000" />
       <workItem from="1483727834041" duration="702000" />
-      <workItem from="1483782649029" duration="7576000" />
+      <workItem from="1483782649029" duration="13443000" />
     </task>
     <task id="LOCAL-00001" summary="Añadir sonidos y imagen fantasmas.">
       <created>1482256040275</created>
@@ -300,7 +290,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39387000" />
+    <option name="totallyTimeSpent" value="45254000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="731" extended-state="6" />
@@ -341,14 +331,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pacman.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1035">
-          <caret line="69" column="27" lean-forward="true" selection-start-line="69" selection-start-column="27" selection-end-line="69" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/images/pacman.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -640,14 +622,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Map.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/images/ghosts.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -661,10 +635,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Map.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ghost.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pacman.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-975">
-          <caret line="78" column="36" lean-forward="true" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="36" />
+        <state relative-caret-position="-484">
+          <caret line="140" column="38" lean-forward="true" selection-start-line="140" selection-start-column="38" selection-end-line="140" selection-end-column="38" />
           <folding />
         </state>
       </provider>

@@ -1,4 +1,4 @@
-var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create, update:update, mov :mov, eatDot: eatDot, eatPill: eatPill, tunnel: tunnel});
+var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create, update:update, mov :mov, eatDot: eatDot, eatPill: eatPill, tunnel: tunnel, deadpacman:deadpacman });
 
 var map;
 var layer;
@@ -14,6 +14,8 @@ var music_intro;
 
 var score = 0;
 var scoreText = null;
+
+var clyde;
 
 
 function init() {
@@ -62,10 +64,11 @@ function create() {
 
     scoreText = game.add.text(375, 260, "Score: " + score, { fontSize: "9px", fill: "#fff" });
 
-    //posición de los fantasmas
-    Inky = game.add.sprite((12 * 7) + 8, (12 * 7) + 8, 'ghosts', 0);
+    //posición inicial de los fantasmas
+    Inky = game.add.sprite((14 * 8)- 7, (17 * 10), 'ghosts', 0);
     Inky.anchor.set(0.5);
 
+    /*
     Clyde= game.add.sprite((12 * 15) + 8, (12 * 15) + 8, 'ghosts', 5);
     Clyde.anchor.set(0.5);
 
@@ -74,6 +77,7 @@ function create() {
 
     Blinky = game.add.sprite((12 * 35) + 8, (12 * 35) + 8, 'ghosts', 13);
     Blinky.anchor.set(0.5);
+    */
 
     //sonido al pasar por los puntos.
     music_eatdot = game.add.audio('pacman-chomp');
@@ -103,6 +107,10 @@ function create() {
     game.physics.arcade.enable(pacman);
     pacman.body.setSize(16, 16, 0, 0);
 
+    //fantasma.
+    game.physics.arcade.enable(Inky);
+    Inky.body.setSize(16, 16, 0, 0);
+
     cursors = this.input.keyboard.createCursorKeys();
 
     //animación
@@ -113,8 +121,10 @@ function create() {
 function update() {
 
     game.physics.arcade.collide(pacman, layer);
+    game.physics.arcade.collide(Inky,layer);
     mov();
 
+    game.physics.arcade.collide(pacman,Inky,deadpacman, null,this);
     game.physics.arcade.overlap(pacman, dots, eatDot, null, this);
     game.physics.arcade.overlap(pacman, pills, eatPill, null, this);
     scoreText.text = 'Score: ' + score;
@@ -165,6 +175,7 @@ function eatDot (pacman, dot) {
     if (dots.total === 0)
     {
         dots.callAll('revive');
+        score = 0;
     }
 
 }
@@ -184,6 +195,14 @@ function tunnel() {
 
     else if(pacman.body.x < 0){
         pacman.body.x = 450;
+    }
+}
+
+function deadpacman(Inky, pacman) {
+
+    if(pacman = Inky){
+        pacman.play('death');
+        music_death.play();
     }
 }
 
