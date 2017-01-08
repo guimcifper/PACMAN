@@ -1,5 +1,4 @@
-var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create, update:update, mov :mov, eatDot: eatDot, eatPill: eatPill, tunnel: tunnel, deadpacman:deadpacman });
-
+var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create, update:update, mov: mov, eatDot: eatDot, eatPill: eatPill, tunnel: tunnel, deadpacman: deadpacman});
 var map;
 var layer;
 
@@ -15,12 +14,12 @@ var music_intro;
 var score = 0;
 var scoreText = null;
 
-var clyde;
+var Inky;
 
 
 function init() {
 
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
 
@@ -46,8 +45,6 @@ function preload() {
 
 function create() {
 
-    game.stage.backgroundColor = '#000000';
-
     map = game.add.tilemap('Map');
     map.addTilesetImage('pacman-mapa1', 'tiles');
     layer = map.createLayer('mapa1');
@@ -62,22 +59,20 @@ function create() {
     dots.setAll('x', 6, false, false, 1);
     dots.setAll('y', 6, false, false, 1);
 
-    scoreText = game.add.text(375, 260, "Score: " + score, { fontSize: "9px", fill: "#fff" });
+    scoreText = game.add.text(372, 258, "Score: " + score, {fontSize: "13px", fill: "#00ff29"});
 
     //posición inicial de los fantasmas
-    Inky = game.add.sprite((14 * 8)- 7, (17 * 10), 'ghosts', 0);
+    Inky = game.add.sprite((14 * 14), (17 * 11) - 3, 'ghosts', 0);
     Inky.anchor.set(0.5);
 
-    /*
-    Clyde= game.add.sprite((12 * 15) + 8, (12 * 15) + 8, 'ghosts', 5);
+    Clyde= game.add.sprite((14 * 15)- 7, (17 * 14), 'ghosts', 5);
     Clyde.anchor.set(0.5);
 
-    Pinky = game.add.sprite((12 * 19) + 8, (12 * 19) + 8, 'ghosts', 9);
+    Pinky = game.add.sprite((14 * 18) -7 , (17 * 14), 'ghosts', 9);
     Pinky.anchor.set(0.5);
 
-    Blinky = game.add.sprite((12 * 35) + 8, (12 * 35) + 8, 'ghosts', 13);
+    Blinky = game.add.sprite((14 * 18), (17 * 11) - 3, 'ghosts', 13);
     Blinky.anchor.set(0.5);
-    */
 
     //sonido al pasar por los puntos.
     music_eatdot = game.add.audio('pacman-chomp');
@@ -104,6 +99,8 @@ function create() {
     pacman.animations.add('munch', [0, 1, 2, 1], 20, true);
     pacman.animations.add("death", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 10, false);
 
+    pacman.animations.add("frightened", [16 ,17], false);
+
     game.physics.arcade.enable(pacman);
     pacman.body.setSize(16, 16, 0, 0);
 
@@ -122,13 +119,15 @@ function update() {
 
     game.physics.arcade.collide(pacman, layer);
     game.physics.arcade.collide(Inky,layer);
+
     mov();
 
     game.physics.arcade.collide(pacman,Inky,deadpacman, null,this);
+
     game.physics.arcade.overlap(pacman, dots, eatDot, null, this);
     game.physics.arcade.overlap(pacman, pills, eatPill, null, this);
-    scoreText.text = 'Score: ' + score;
 
+    scoreText.text = 'Score: ' + score;
     tunnel();
 
 }
@@ -177,7 +176,6 @@ function eatDot (pacman, dot) {
         dots.callAll('revive');
         score = 0;
     }
-
 }
 
 function eatPill (pacman, pill) {
@@ -185,6 +183,7 @@ function eatPill (pacman, pill) {
     pill.kill();
     music_eatdot1.play();
     score +=50;
+
 }
 
 function tunnel() {
@@ -198,13 +197,16 @@ function tunnel() {
     }
 }
 
-function deadpacman(Inky, pacman) {
+function deadpacman (Inky, pacman) {
 
     if(pacman = Inky){
-        pacman.play('death');
         music_death.play();
+        pacman.play('death');
+        //pacman.kill();
     }
 }
+
+//TODO: Que el fantasma se mueva independientemente buscando al pacman.
 
 
 
