@@ -122,6 +122,7 @@ function create() {
     pacman.animations.add('munch', [0, 1, 2, 1], 20, true);
     pacman.animations.add("death", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 10, false);
 
+    //Animacion cuando comes un "Pill"
     pacman.animations.add("frightened", [16 ,17], false);
 
     game.physics.arcade.enable(pacman);
@@ -158,6 +159,9 @@ function update() {
 
     //colision pacman-fantasma
     game.physics.arcade.collide(pacman,Inky,deadpacman, null,this);
+    game.physics.arcade.collide(pacman,Clyde,deadpacman1, null,this);
+    game.physics.arcade.collide(pacman,Blinky,deadpacman2, null,this);
+    game.physics.arcade.collide(pacman,Pinky,deadpacman3, null,this);
 
     game.physics.arcade.overlap(pacman, dots, eatDot, null, this);
     game.physics.arcade.overlap(pacman, pills, eatPill, null, this);
@@ -224,6 +228,7 @@ function eatPill (pacman, pill) {
     music_eatdot1.play();
     score +=50;
 
+
 }
 
 function tunnel() {
@@ -237,9 +242,37 @@ function tunnel() {
     }
 }
 
+
 function deadpacman (Inky, pacman) {
 
     if(pacman = Inky){
+        music_death.play();
+        pacman.play('death');
+        pacman.kill();
+    }
+}
+function deadpacman1 (Clyde, pacman) {
+
+
+    if(pacman = Clyde){
+        music_death.play();
+        pacman.play('death');
+        pacman.kill();
+    }
+}
+
+function deadpacman2 (Blinky, pacman) {
+
+    if(pacman = Blinky){
+        music_death.play();
+        pacman.play('death');
+        pacman.kill();
+    }
+}
+
+function deadpacman3 (Pinky, pacman) {
+
+    if(pacman = Pinky){
         music_death.play();
         pacman.play('death');
         pacman.kill();
