@@ -123,7 +123,10 @@ function create() {
     pacman.animations.add("death", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 10, false);
 
     //Animacion cuando comes un "Pill"
-    pacman.animations.add("frightened", [16 ,17], false);
+    Inky.animations.add("frightened", [16 ,17], false);
+    Clyde.animations.add("frightened", [16 ,17], false);
+    Pinky.animations.add("frightened", [16 ,17], false);
+    Blinky.animations.add("frightened", [16 ,17], false);
 
     game.physics.arcade.enable(pacman);
     pacman.body.setSize(16, 16, 0, 0);
@@ -228,6 +231,10 @@ function eatPill (pacman, pill) {
     music_eatdot1.play();
     score +=50;
 
+    Inky.animations.play('frightened');
+    Clyde.animations.play('frightened');
+    Blinky.animations.play('frightened');
+    Pinky.animations.play('frightened');
 
 }
 
@@ -322,6 +329,10 @@ function changevelocity4(Blinky){
     if(!game.physics.arcade.collide(Blinky, layer)){
         Blinky.body.velocity.x = Blinky_velocity[index_Blinky_velocity].x;
         Blinky.body.velocity.y = Blinky_velocity[index_Blinky_velocity].y;
+
+        /*if(fantasmas estan congelados){
+                //menos velocidad
+        }*/
 
     }
     else{
