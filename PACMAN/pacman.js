@@ -1,4 +1,4 @@
-var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create, update:update, mov: mov, eatDot: eatDot, eatPill: eatPill, tunnel: tunnel, deadpacman: deadpacman});
+var game = new Phaser.Game(450,500, Phaser.AUTO, 'phaser-example', {init:init, preload: preload, create: create, update:update, mov: mov, eatDot: eatDot, eatPill: eatPill, tunnel: tunnel});
 var map;
 var layer;
 
@@ -14,7 +14,30 @@ var music_intro;
 var score = 0;
 var scoreText = null;
 
+
+// fantasma Inky
 var Inky;
+var velocidad1 = 200;
+var index_Inky_velocity = 0;
+var Inky_velocity= [{x:velocidad1, y:0},{x:-velocidad1, y:0}, {x:0, y:velocidad1}, {x:0, y:-velocidad1}];
+
+/// fantasma Clyde
+var Clyde;
+var velocidad2 = 180;
+var index_Clyde_velocity = 0;
+var Clyde_velocity= [{x:velocidad2, y:0},{x:-velocidad2, y:0}, {x:0, y:velocidad2}, {x:0, y:-velocidad2}];
+
+//fantasma Pinky
+var Pinky;
+var velocidad3 = 160;
+var index_Pinky_velocity = 0;
+var Pinky_velocity= [{x:velocidad3, y:0},{x:-velocidad3, y:0}, {x:0, y:velocidad3}, {x:0, y:-velocidad3}];
+
+//fantasma Blinky
+var Blinky;
+var velocidad4 = 140;
+var index_Blinky_velocity = 0;
+var Blinky_velocity= [{x:velocidad4, y:0},{x:-velocidad4, y:0}, {x:0, y:velocidad4}, {x:0, y:-velocidad4}];
 
 
 function init() {
@@ -59,10 +82,10 @@ function create() {
     dots.setAll('x', 6, false, false, 1);
     dots.setAll('y', 6, false, false, 1);
 
-    scoreText = game.add.text(372, 258, "Score: " + score, {fontSize: "13px", fill: "#00ff29"});
+    scoreText = game.add.text(372, 258, "Score: " + score, {font: "Arial",fontSize: "12px", fill: "#21ff00"});
 
     //posición inicial de los fantasmas
-    Inky = game.add.sprite((14 * 14), (17 * 11) - 3, 'ghosts', 0);
+    Inky = game.add.sprite((14 * 14), (17 * 11) - 3, 'ghosts', 1);
     Inky.anchor.set(0.5);
 
     Clyde= game.add.sprite((14 * 15)- 7, (17 * 14), 'ghosts', 5);
@@ -104,9 +127,20 @@ function create() {
     game.physics.arcade.enable(pacman);
     pacman.body.setSize(16, 16, 0, 0);
 
-    //fantasma.
+    //fantasma Inky
     game.physics.arcade.enable(Inky);
     Inky.body.setSize(16, 16, 0, 0);
+
+    //fantasma Clyde
+    game.physics.arcade.enable(Clyde);
+    Clyde.body.setSize(16, 16, 0, 0);
+
+    //fantasma Pinky
+    game.physics.arcade.enable(Pinky);
+    Pinky.body.setSize(16, 16, 0, 0);
+
+    game.physics.arcade.enable(Blinky);
+    Blinky.body.setSize(16, 16, 0, 0);
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -118,10 +152,11 @@ function create() {
 function update() {
 
     game.physics.arcade.collide(pacman, layer);
-    game.physics.arcade.collide(Inky,layer);
+    //game.physics.arcade.collide(Inky,layer);
 
     mov();
 
+    //colision pacman-fantasma
     game.physics.arcade.collide(pacman,Inky,deadpacman, null,this);
 
     game.physics.arcade.overlap(pacman, dots, eatDot, null, this);
@@ -129,6 +164,11 @@ function update() {
 
     scoreText.text = 'Score: ' + score;
     tunnel();
+
+    changevelocity1(Inky);
+    changevelocity2(Clyde);
+    changevelocity3(Pinky);
+    changevelocity4(Blinky);
 
 }
 
@@ -202,11 +242,60 @@ function deadpacman (Inky, pacman) {
     if(pacman = Inky){
         music_death.play();
         pacman.play('death');
-        //pacman.kill();
+        pacman.kill();
     }
 }
 
-//TODO: Que el fantasma se mueva independientemente buscando al pacman.
+//TODO: Que el fantasma se mueva independientemente (buscando al pacman)
+
+function changevelocity1(Inky){
+
+    if(!game.physics.arcade.collide(Inky, layer)){
+        Inky.body.velocity.x = Inky_velocity[index_Inky_velocity].x;
+        Inky.body.velocity.y = Inky_velocity[index_Inky_velocity].y;
+
+    }
+    else{
+        index_Inky_velocity = Math.floor(Math.random()*4);
+    }
+}
+
+function changevelocity2(Clyde){
+
+    if(!game.physics.arcade.collide(Clyde, layer)){
+        Clyde.body.velocity.x = Clyde_velocity[index_Clyde_velocity].x;
+        Clyde.body.velocity.y = Clyde_velocity[index_Clyde_velocity].y;
+
+    }
+    else{
+        index_Clyde_velocity = Math.floor(Math.random()*4);
+    }
+}
+
+function changevelocity3(Pinky){
+
+    if(!game.physics.arcade.collide(Pinky, layer)){
+        Pinky.body.velocity.x = Pinky_velocity[index_Pinky_velocity].x;
+        Pinky.body.velocity.y = Pinky_velocity[index_Pinky_velocity].y;
+
+    }
+    else{
+        index_Pinky_velocity = Math.floor(Math.random()*4);
+    }
+}
+
+function changevelocity4(Blinky){
+
+    if(!game.physics.arcade.collide(Blinky, layer)){
+        Blinky.body.velocity.x = Blinky_velocity[index_Blinky_velocity].x;
+        Blinky.body.velocity.y = Blinky_velocity[index_Blinky_velocity].y;
+
+    }
+    else{
+        index_Blinky_velocity = Math.floor(Math.random()*4);
+    }
+}
+
 
 
 
