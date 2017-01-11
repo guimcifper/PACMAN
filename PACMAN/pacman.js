@@ -10,9 +10,13 @@ var current = Phaser.NONE;
 var music_eatdot;
 var music_eatdot1;
 var music_intro;
+var music_win;
 
 var score = 0;
 var scoreText = null;
+
+var life = 3;
+var lifeText= null;
 
 
 // fantasma Inky
@@ -63,6 +67,7 @@ function preload() {
     game.load.audio('pacman-chomp', 'sounds/pacman_chomp.wav');
     game.load.audio('pacman-chomp1', 'sounds/pacman_chomp1.wav');
     game.load.audio('death', 'sounds/death.wav');
+    game.load.audio('win', 'sounds/TaDa.mp3');
 
 }
 
@@ -82,7 +87,8 @@ function create() {
     dots.setAll('x', 6, false, false, 1);
     dots.setAll('y', 6, false, false, 1);
 
-    scoreText = game.add.text(372, 258, "Score: " + score, {font: "Arial",fontSize: "12px", fill: "#21ff00"});
+    scoreText = game.add.text(372, 258, score, {font: "Andale Mono",fontSize: "20px", fill: "#21ff00"});
+    lifeText = game.add.text(185, 220,"LIFE:" + life, {font: "Andale Mono",fontSize: "20px", fill: "#ff0020"});
 
     //posición inicial de los fantasmas
     Inky = game.add.sprite((14 * 14), (17 * 11) - 3, 'ghosts', 1);
@@ -110,6 +116,8 @@ function create() {
     music_intro.play();
 
     music_death = game.add.audio('death');
+
+    music_win = game.add.audio('win');
 
     // Posición del pacman, grid location 14x17
     pacman = game.add.sprite((14 * 16) + 8, (17 * 16) + 8, 'pacman', 0);
@@ -153,29 +161,50 @@ function create() {
 }
 
 
+function revivirpacman() {
+
+    pacman.kill();
+    pacman = game.add.sprite((14 * 16) + 8, (17 * 16) + 8, 'pacman', 0);
+    pacman.anchor.set(0.5);
+    map.setCollisionByExclusion([safetile], true, layer);
+    pacman.animations.add('munch', [0, 1, 2, 1], 20, true);
+    game.physics.arcade.enable(pacman);
+    pacman.body.setSize(16, 16, 0, 0);
+    cursors = this.input.keyboard.createCursorKeys();
+    pacman.play('munch');
+    life -=1;
+    lifes(life);
+}
+
+function lifes(life) {
+
+    if(life == 0){
+        pacman.kill();
+        gameover = game.add.text(145, 165,"GAME OVER", {font: "Andale Mono",fontSize: "30px", fill: "#fff407"});
+    }
+}
+
 function update() {
 
     game.physics.arcade.collide(pacman, layer);
-    //game.physics.arcade.collide(Inky,layer);
-
     mov();
 
-    //colision pacman-fantasma
-    game.physics.arcade.collide(pacman,Inky,deadpacman, null,this);
-    game.physics.arcade.collide(pacman,Clyde,deadpacman1, null,this);
-    game.physics.arcade.collide(pacman,Blinky,deadpacman2, null,this);
-    game.physics.arcade.collide(pacman,Pinky,deadpacman3, null,this);
+    game.physics.arcade.collide(pacman,Inky,revivirpacman,null,this);
+    game.physics.arcade.collide(pacman,Clyde,revivirpacman, null,this);
+    game.physics.arcade.collide(pacman,Blinky,revivirpacman, null,this);
+    game.physics.arcade.collide(pacman,Pinky,revivirpacman, null,this);
 
     game.physics.arcade.overlap(pacman, dots, eatDot, null, this);
     game.physics.arcade.overlap(pacman, pills, eatPill, null, this);
 
-    scoreText.text = 'Score: ' + score;
+    scoreText.text = score;
+    lifeText.text = "LIFE:" + life;
     tunnel();
 
-    changevelocity1(Inky);
-    changevelocity2(Clyde);
-    changevelocity3(Pinky);
-    changevelocity4(Blinky);
+    velocity1(Inky);
+    velocity2(Clyde);
+    velocity3(Pinky);
+    velocity4(Blinky);
 
 }
 
@@ -220,8 +249,15 @@ function eatDot (pacman, dot) {
 
     if (dots.total === 0)
     {
-        dots.callAll('revive');
-        score = 0;
+        //dots.callAll('revive');
+        //score = 0;
+        Inky.kill();
+        Clyde.kill();
+        Blinky.kill();
+        Pinky.kill();
+
+        music_win.play();
+        Winner = game.add.text(140, 165,"", {font: "Andale Mono",fontSize: "30px", fill: "#fff407"});
     }
 }
 
@@ -235,110 +271,64 @@ function eatPill (pacman, pill) {
     Clyde.animations.play('frightened');
     Blinky.animations.play('frightened');
     Pinky.animations.play('frightened');
-
 }
 
 function tunnel() {
 
-    if(pacman.body.x > 450){
+    if(pacman.body.x > 449){
         pacman.body.x = 0;
     }
-
     else if(pacman.body.x < 0){
-        pacman.body.x = 450;
-    }
-}
-
-
-function deadpacman (Inky, pacman) {
-
-    if(pacman = Inky){
-        music_death.play();
-        pacman.play('death');
-        pacman.kill();
-    }
-}
-function deadpacman1 (Clyde, pacman) {
-
-
-    if(pacman = Clyde){
-        music_death.play();
-        pacman.play('death');
-        pacman.kill();
-    }
-}
-
-function deadpacman2 (Blinky, pacman) {
-
-    if(pacman = Blinky){
-        music_death.play();
-        pacman.play('death');
-        pacman.kill();
-    }
-}
-
-function deadpacman3 (Pinky, pacman) {
-
-    if(pacman = Pinky){
-        music_death.play();
-        pacman.play('death');
-        pacman.kill();
+        pacman.body.x = 449;
     }
 }
 
 //TODO: Que el fantasma se mueva independientemente (buscando al pacman)
 
-function changevelocity1(Inky){
+function velocity1(Inky){
 
     if(!game.physics.arcade.collide(Inky, layer)){
         Inky.body.velocity.x = Inky_velocity[index_Inky_velocity].x;
         Inky.body.velocity.y = Inky_velocity[index_Inky_velocity].y;
-
     }
     else{
         index_Inky_velocity = Math.floor(Math.random()*4);
     }
 }
 
-function changevelocity2(Clyde){
+function velocity2(Clyde){
 
     if(!game.physics.arcade.collide(Clyde, layer)){
         Clyde.body.velocity.x = Clyde_velocity[index_Clyde_velocity].x;
         Clyde.body.velocity.y = Clyde_velocity[index_Clyde_velocity].y;
-
     }
     else{
         index_Clyde_velocity = Math.floor(Math.random()*4);
     }
 }
 
-function changevelocity3(Pinky){
+function velocity3(Pinky){
 
     if(!game.physics.arcade.collide(Pinky, layer)){
         Pinky.body.velocity.x = Pinky_velocity[index_Pinky_velocity].x;
         Pinky.body.velocity.y = Pinky_velocity[index_Pinky_velocity].y;
-
     }
     else{
         index_Pinky_velocity = Math.floor(Math.random()*4);
     }
 }
 
-function changevelocity4(Blinky){
+function velocity4(Blinky){
 
     if(!game.physics.arcade.collide(Blinky, layer)){
         Blinky.body.velocity.x = Blinky_velocity[index_Blinky_velocity].x;
         Blinky.body.velocity.y = Blinky_velocity[index_Blinky_velocity].y;
-
-        /*if(fantasmas estan congelados){
-                //menos velocidad
-        }*/
-
     }
     else{
         index_Blinky_velocity = Math.floor(Math.random()*4);
     }
 }
+
 
 
 
