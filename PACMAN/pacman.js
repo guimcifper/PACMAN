@@ -18,28 +18,27 @@ var scoreText = null;
 var life = 3;
 var lifeText= null;
 
-
 // fantasma Inky
 var Inky;
-var velocidad1 = 200;
+var velocidad1 = 140;
 var index_Inky_velocity = 0;
 var Inky_velocity= [{x:velocidad1, y:0},{x:-velocidad1, y:0}, {x:0, y:velocidad1}, {x:0, y:-velocidad1}];
 
 /// fantasma Clyde
 var Clyde;
-var velocidad2 = 180;
+var velocidad2 = 130;
 var index_Clyde_velocity = 0;
 var Clyde_velocity= [{x:velocidad2, y:0},{x:-velocidad2, y:0}, {x:0, y:velocidad2}, {x:0, y:-velocidad2}];
 
 //fantasma Pinky
 var Pinky;
-var velocidad3 = 160;
+var velocidad3 = 120;
 var index_Pinky_velocity = 0;
 var Pinky_velocity= [{x:velocidad3, y:0},{x:-velocidad3, y:0}, {x:0, y:velocidad3}, {x:0, y:-velocidad3}];
 
 //fantasma Blinky
 var Blinky;
-var velocidad4 = 140;
+var velocidad4 = 110;
 var index_Blinky_velocity = 0;
 var Blinky_velocity= [{x:velocidad4, y:0},{x:-velocidad4, y:0}, {x:0, y:velocidad4}, {x:0, y:-velocidad4}];
 
@@ -160,18 +159,25 @@ function create() {
     pacman.play('munch');
 }
 
-
 function revivirpacman() {
 
     pacman.kill();
+    music_death.play();
+
     pacman = game.add.sprite((14 * 16) + 8, (17 * 16) + 8, 'pacman', 0);
     pacman.anchor.set(0.5);
+
     map.setCollisionByExclusion([safetile], true, layer);
+
     pacman.animations.add('munch', [0, 1, 2, 1], 20, true);
+
     game.physics.arcade.enable(pacman);
     pacman.body.setSize(16, 16, 0, 0);
+
     cursors = this.input.keyboard.createCursorKeys();
+
     pacman.play('munch');
+
     life -=1;
     lifes(life);
 }
@@ -181,6 +187,7 @@ function lifes(life) {
     if(life == 0){
         pacman.kill();
         gameover = game.add.text(145, 165,"GAME OVER", {font: "Andale Mono",fontSize: "30px", fill: "#fff407"});
+        music_death.play();
     }
 }
 
@@ -213,28 +220,28 @@ function mov(){
     if(cursors.left.isDown && current!== Phaser.LEFT){
 
         pacman.angle = 180;
-        pacman.body.velocity.x = -200;
+        pacman.body.velocity.x = -120;
         pacman.animations.play('left');
 
     }
     else if(cursors.right.isDown && current!== Phaser.RIGHT){
 
         pacman.angle = 360;
-        pacman.body.velocity.x = 200;
+        pacman.body.velocity.x = 120;
         pacman.animations.play('right');
 
     }
     else if(cursors.up.isDown && current!== Phaser.UP) {
 
         pacman.angle = 270;
-        pacman.body.velocity.y = -200;
+        pacman.body.velocity.y = -120;
         pacman.animations.play('up');
 
     }
     else if (cursors.down.isDown && current!== Phaser.DOWN) {
 
         pacman.angle = 90;
-        pacman.body.velocity.y = 200;
+        pacman.body.velocity.y = 120;
         pacman.animations.play('down');
 
     }
@@ -273,6 +280,7 @@ function eatPill (pacman, pill) {
     Pinky.animations.play('frightened');
 }
 
+
 function tunnel() {
 
     if(pacman.body.x > 449){
@@ -282,8 +290,6 @@ function tunnel() {
         pacman.body.x = 449;
     }
 }
-
-//TODO: Que el fantasma se mueva independientemente (buscando al pacman)
 
 function velocity1(Inky){
 
