@@ -363,6 +363,7 @@ function velocity3(Pinky){
     if(!game.physics.arcade.collide(Pinky, layer)){
         Pinky.body.velocity.x = Pinky_velocity[index_Pinky_velocity].x;
         Pinky.body.velocity.y = Pinky_velocity[index_Pinky_velocity].y;
+
     }
     else{
         index_Pinky_velocity = Math.floor(Math.random()*4);
@@ -378,6 +379,10 @@ function velocity4(Blinky){
     else{
         index_Blinky_velocity = Math.floor(Math.random()*4);
     }
+
+    //TODO: TIMER PARA QUE LOS FANTASMAS SALGAN DEL MODO 'frightened' XD
+    //TODO: PACMAN SIMILAR AL CLÁSICO * MODO-FÁCIL
+    //TODO: FIN.
 }
 
 
