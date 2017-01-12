@@ -18,6 +18,8 @@ var scoreText = null;
 var life = 3;
 var lifeText= null;
 
+var azul = true;
+
 // fantasma Inky
 var Inky;
 var velocidad1 = 140;
@@ -161,25 +163,67 @@ function create() {
 
 function revivirpacman() {
 
-    pacman.kill();
-    music_death.play();
 
-    pacman = game.add.sprite((14 * 16) + 8, (17 * 16) + 8, 'pacman', 0);
-    pacman.anchor.set(0.5);
+    if (azul == true) {
+        pacman.kill();
+        music_death.play();
 
-    map.setCollisionByExclusion([safetile], true, layer);
+        pacman = game.add.sprite((14 * 16) + 8, (17 * 16) + 8, 'pacman', 0);
+        pacman.anchor.set(0.5);
 
-    pacman.animations.add('munch', [0, 1, 2, 1], 20, true);
+        map.setCollisionByExclusion([safetile], true, layer);
 
-    game.physics.arcade.enable(pacman);
-    pacman.body.setSize(16, 16, 0, 0);
+        pacman.animations.add('munch', [0, 1, 2, 1], 20, true);
 
-    cursors = this.input.keyboard.createCursorKeys();
+        game.physics.arcade.enable(pacman);
+        pacman.body.setSize(16, 16, 0, 0);
 
-    pacman.play('munch');
+        cursors = this.input.keyboard.createCursorKeys();
 
-    life -=1;
-    lifes(life);
+        pacman.play('munch');
+
+        life -= 1;
+        lifes(life);
+    }
+    else    {
+        //if (pacman_pos = Inky) {
+            Inky.kill();
+            Inky = game.add.sprite((14 * 14), (17 * 11) - 3, 'ghosts', 1);
+            Inky.anchor.set(0.5);
+            game.physics.arcade.enable(Inky);
+            Inky.body.setSize(16, 16, 0, 0);
+            Inky.animations.add("frightened", [16 ,17], false);
+        //}
+
+        //if (pacman_pos = Clyde) {
+            Clyde.kill();
+            Clyde = game.add.sprite((14 * 15) - 7, (17 * 14), 'ghosts', 5);
+            Clyde.anchor.set(0.5);
+            game.physics.arcade.enable(Clyde);
+            Clyde.body.setSize(16, 16, 0, 0);
+            Clyde.animations.add("frightened", [16 ,17], false);
+        //}
+
+        //if (pacman_pos = Blinky) {
+            Blinky.kill();
+            Blinky = game.add.sprite((14 * 18), (17 * 11) - 3, 'ghosts', 13);
+            Blinky.anchor.set(0.5);
+            game.physics.arcade.enable(Blinky);
+            Blinky.body.setSize(16, 16, 0, 0);
+            Blinky.animations.add("frightened", [16 ,17], false);
+        //}
+
+         //if (pacman_pos = Pinky) {
+            Pinky.kill();
+            Pinky = game.add.sprite((14 * 18) - 7, (17 * 14), 'ghosts', 9);
+            Pinky.anchor.set(0.5);
+            game.physics.arcade.enable(Pinky);
+            Pinky.body.setSize(16, 16, 0, 0);
+            Pinky.animations.add("frightened", [16 ,17], false);
+        //}
+        azul = true;
+
+    }
 }
 
 function lifes(life) {
@@ -196,10 +240,11 @@ function update() {
     game.physics.arcade.collide(pacman, layer);
     mov();
 
-    game.physics.arcade.collide(pacman,Inky,revivirpacman,null,this);
+    game.physics.arcade.collide(pacman,Inky,revivirpacman, null,this);
     game.physics.arcade.collide(pacman,Clyde,revivirpacman, null,this);
     game.physics.arcade.collide(pacman,Blinky,revivirpacman, null,this);
     game.physics.arcade.collide(pacman,Pinky,revivirpacman, null,this);
+
 
     game.physics.arcade.overlap(pacman, dots, eatDot, null, this);
     game.physics.arcade.overlap(pacman, pills, eatPill, null, this);
@@ -212,7 +257,6 @@ function update() {
     velocity2(Clyde);
     velocity3(Pinky);
     velocity4(Blinky);
-
 }
 
 function mov(){
@@ -278,8 +322,9 @@ function eatPill (pacman, pill) {
     Clyde.animations.play('frightened');
     Blinky.animations.play('frightened');
     Pinky.animations.play('frightened');
-}
 
+    azul = false;
+}
 
 function tunnel() {
 
@@ -334,6 +379,7 @@ function velocity4(Blinky){
         index_Blinky_velocity = Math.floor(Math.random()*4);
     }
 }
+
 
 
 
